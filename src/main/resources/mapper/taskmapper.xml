@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.DAO.taskDAO">
+    <resultMap id="tasklist" type="com.example.demo.Entity.Task">
+        <id property="id" column="id" jdbcType="INTEGER" javaType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR" javaType="STRING"/>
+        <result property="content" column="content" jdbcType="VARCHAR" javaType="STRING"/>
+        <result property="state" column="state" jdbcType="INTEGER" javaType="INTEGER"/>
+        <result property="start_time" column="start_time" jdbcType="TIMESTAMP"/>
+        <result property="end_time" column="end_time" jdbcType="TIMESTAMP"/>
+        <result property="preson" column="preson" jdbcType="VARCHAR"/>
+        <result property="edition" column="edition" jdbcType="VARCHAR"/>
+        <result property="flow_time" column="flow_time" jdbcType="TIMESTAMP"/>
+        <result property="create_time" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+   <select id="taskall" parameterType="INTEGER" resultMap="tasklist">
+               select * from domain.testing_task where state=#{state}
+   </select>
+    <update id="jobtask">
+        UPDATE domain.testing_task SET state='2' WHERE now()>end_time and state='1'
+    </update>
+    <insert id="addtask" parameterType="com.example.demo.Entity.Task">
+      insert into domain.testing_task (title,content,start_time,end_time,person,edition)
+                values (#{title},#{content},#{start_time},#{end_time},#{person},#{edition})
+    </insert>
+    <delete id="deletestask" parameterType="INTEGER" >
+        DELETE from domain.testing_task where id =#{id}
+    </delete>
+    <update id="updatetask" parameterType="com.example.demo.Entity.Task">
+        update domain.testing_task
+        <set>
+            <if test="title!=null">title=#{title},</if>
+            <if test="content!=null">content=#{content},</if>
+            <if test="start_time!=null">start_time=#{start_time},</if>
+            <if test="end_time!=null">end_time=#{end_time},</if>
+            <if test="person!=null">person=#{person},</if>
+            <if test="edition!=null">edition=#{edition},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="jobemail">
+        UPDATE domain.testing_task
+        SET state = '3'
+        WHERE
+        DATE_SUB(NOW(),INTERVAL 1 DAY)>=end_time
+        AND state = '2';
+    </update>
+</mapper>

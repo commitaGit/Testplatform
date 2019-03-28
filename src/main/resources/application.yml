@@ -1,0 +1,54 @@
+server:
+  port: 8181
+
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306?useSSL=false
+  profiles:
+    active: test
+
+
+
+#see_test环境数据库
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: test_user
+#    password: MUP55VYBPqchvw
+#    url: jdbc:mysql://gz-cdb-gr44bd84.sql.tencentcdb.com:62508/see
+
+
+#mybatis相关配置
+mybatis:
+#mapper.xml放在resources下面
+  mapperLocations: classpath*:mapper/**/*.xml
+  typeAliasesPackage: com.example.demo.Entity
+  configuration:
+    #mybatis开启驼峰自动转换
+    map-underscore-to-camel-case: true
+
+mapper:
+    mappers:
+        - com.example.demo.Base.ComMapper
+    not-empty: false
+    identity: MYSQL
+
+
+
+
+
+#配置sql日志打印，
+logging:
+  level:
+    com.example.demo.DAO: #对应的DAO路径
+      debug
+
+
+
+
+
+    
