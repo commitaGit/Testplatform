@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/task")
-@Api(tags = "测试报告")
+@Api(tags = "测试平台-测试报告")
 public class TaskCollection {
 
     @Autowired
